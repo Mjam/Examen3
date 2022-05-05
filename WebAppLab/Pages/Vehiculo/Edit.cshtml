@@ -1,0 +1,82 @@
+﻿@page
+@model WebAppLab.Pages.Vehiculo.EditModel
+@{
+}
+
+<div id="AppEdit" class="container"  data-entity="@JsonSerializer.Serialize(Model.Entity)">
+    <div class="card">
+        <div class="card-header">
+            @(Model.id.HasValue ? "Actualizar":"Nuevo") 
+        </div>
+        <div class="card-body">
+            <form id="FormEdit" method="post">
+
+                <input type="hidden" asp-for="Entity.VehiculoId" />
+
+                <div class="form-group mb-3">
+                    <label for="Entity.MarcaVehiculoId" class="form-label">Marca Vehiculo</label>
+
+                    <select asp-for="Entity.MarcaVehiculoId" class="form-select"
+                            asp-items="@(new SelectList(Model.MarcaVehiculoLista,"MarcaVehiculoId","Descripcion"))" required>
+                    </select>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="Entity.Matricula" class="form-label">Matricula</label>
+                    <input type="text" class="form-control" asp-for="Entity.Matricula" maxlength="250" required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="Entity.Color" class="form-label">Color</label>
+                    <input type="text" class="form-control" asp-for="Entity.Color" maxlength="250" required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="Entity.Modelo" class="form-label">Modelo</label>
+                    <input type="text" class="form-control" asp-for="Entity.Modelo" maxlength="250" required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="Entity.FechaModelo" class="form-label">Fecha Modelo</label>
+                    <input type="date" class="form-control" asp-for="Entity.FechaModelo" required>
+                </div>
+
+                <div class="form-group form-check form-switch">
+                    <label class="form-check-label" for="Entity_TieneDefectos">Defectos?</label>
+                    <input class="form-check-input" type="checkbox" asp-for="Entity.TieneDefectos" v-model="Entity.TieneDefectos"
+                           v-on:change="RefrescarValidaciones" value="true">
+
+                </div>
+              
+                <div v-show="Entity.TieneDefectos" class="form-group mb-3">
+
+                    <label for="Entity.Defectos" class="form-label">Comentarios de los defectos</label>
+                    <textarea class="form-control" rows="2" asp-for="Entity.Defectos" maxlength="1000" :required="Entity.TieneDefectos"></textarea>
+
+                </div>
+
+                <div class="form-group form-check form-switch">
+                    <input class="form-check-input" type="checkbox" asp-for="Entity.Estado" value="true">
+                    <label class="form-check-label" for="Entity_Estado">Estado</label>
+                </div>
+
+                <div class="row">
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-outline-primary">
+                            @(Model.id.HasValue ? "Actualizar":"Agregar")
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script defer src="~/App/Vehiculo/Edit.js"></script>
+
+}

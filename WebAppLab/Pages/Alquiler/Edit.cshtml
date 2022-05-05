@@ -1,0 +1,109 @@
+﻿@page
+@model WebAppLab.Pages.Alquiler.EditModel
+@{
+}
+
+<br />
+<div id="AppEdit" class="container" data-entity="@JsonSerializer.Serialize(Model.Entity)" v-cloak>
+    <div class="card">
+        <div class="card-header">
+            @(Model.id.HasValue ? "Actualizar":"Nuevo")
+        </div>
+        <div class="card-body">
+            <form id="FormEdit">
+
+
+                <input type="hidden" asp-for="Entity.IdAlquiler" v-model="Entity.IdAlquiler" />
+
+
+                <div class="form-group mb-3">
+                    <label for="Entity.ClientesId" class="form-label">Cliente</label>
+
+                    <select asp-for="Entity.ClientesId" class="form-select" v-model="Entity.ClientesId"
+                            asp-items="@(new SelectList(Model.ClienteLista,"ClientesId","NombreCompleto"))"
+                            required>
+                        <option value=""></option>
+                    </select>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="Entity.VehiculoId" class="form-label">Vehiculo</label>
+
+                    <select asp-for="Entity.VehiculoId" class="form-select" v-model="Entity.VehiculoId"
+                            asp-items="@(new SelectList(Model.VehiculoLista,"VehiculoId","Matricula"))"
+                            required>
+                        <option value=""></option>
+                    </select>
+                </div>
+
+
+
+                <div class="form-group mb-3">
+                    <label for="Entity.FechaInicio" class="form-label">Fecha Inicio</label>
+                    
+                    <b-form-datepicker id="FechaInicio" name="FechaInicio"  class="form-control" v-model="Entity.FechaInicio" required>
+
+                    </b-form-datepicker>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="Entity.FechaFin" class="form-label">Fecha Fin </label>
+                  
+                     <b-form-datepicker id="FechaFin" name="FechaFin"  v-model="Entity.FechaFin" class="form-control" required>
+
+                     </b-form-datepicker>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="Entity.Monto" class="form-label">Monto</label>
+                    <input type="number" class="form-control" asp-for="Entity.Monto" v-model.number="Entity.Monto" required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="Entity.Impuesto" class="form-label">Impuesto</label>
+                    <input type="number" class="form-control" asp-for="Entity.Impuesto" v-model.number="Entity.Impuesto" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="Entity.SubTotal" class="form-label">Sub Total :</label>
+                    <span class="text-info">{{(Entity.Impuesto/100)*Entity.Monto}}</span>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="Entity.Total" class="form-label">Total</label>
+                    @*<span>{{((this.Entity.Impuesto / 100) * this.Entity.Monto) + this.Entity.Monto}}</span>
+                    <span>{{CalculoMontoTotalFn()}}</span>*@
+                    <span class="text-info">{{CalculoMontoTotalCP}}</span>
+                </div>
+
+
+
+
+
+                <div class="form-group mb-3">
+                    <label for="Entity.Observaciones" class="form-label">Observaciones</label>
+                    <input type="text" class="form-control" asp-for="Entity.Observaciones" v-model="Entity.Observaciones" maxlength="1000">
+                </div>
+
+                <div class="form-group form-check form-switch">
+                    <input class="form-check-input" type="checkbox" asp-for="Entity.Estado" v-model="Entity.Estado" value="true">
+                    <label class="form-check-label" for="Entity_Estado">Estado</label>
+                </div>
+
+                <div class="row">
+                    <div class="col-4">
+                        <button type="submit"  class="btn btn-outline-primary">
+                            @(Model.id.HasValue ? "Actualizar":"Agregar")
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script defer src="~/App/Alquiler/Grid.js"></script>
+}

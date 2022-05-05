@@ -1,0 +1,81 @@
+﻿@page
+@model WebAppLab.Pages.Vehiculo.GridModel
+@{
+}
+
+<br />
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+
+            Vehiculo
+
+
+        </div>
+        <div class="card-body">
+
+            <a class="btn btn-outline-primary" asp-page="Edit">
+                <i class='bx bxs-comment-add'></i>
+            </a>
+
+            <div class="row">
+
+                <div class="col-12"></div>
+                <table id="GridView" class="table table-bordered table-striped table-over">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Marca</th>
+                            <th>Matricula</th>
+                            <th>Color</th>
+                            <th>Modelo</th>
+                            <th>Fecha Modelo</th>
+                            <th>Defectos</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.GridList)
+                        {
+                            <tr>
+                                <td>@item.VehiculoId</td>
+                                <td>@item.MarcaVehiculo.Descripcion</td>
+                                <td>@item.Matricula</td>
+                                <td>@item.Color</td>
+                                <td>@item.Modelo</td>
+                                <td>@item.FechaModelo.ToString("dd/MM/yyyy")</td>
+                                <td>@item.Defectos</td>
+                                <td>@(item.Estado ?"Activo" :"Inactivo")</td>
+                                <td>
+                                    <a class="btn btn-outline-primary" asp-page="Edit" asp-route-id="@item.VehiculoId">
+                                        <i class='bx bx-edit-alt'></i>
+                                    </a>
+                                    <button type="button" class="btn btn-outline-danger"
+                                            onclick="VehiculoGrid.OnClickEliminar(@item.VehiculoId)">
+                                        <i class='bx bx-trash'></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        var MensajeApp = "@Html.Raw(Model.Mensaje)";
+    </script>
+
+
+    <script defer src="~/App/Vehiculo/Grid.js"></script>
+
+}
